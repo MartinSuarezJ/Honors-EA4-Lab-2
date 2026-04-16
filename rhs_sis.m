@@ -3,5 +3,5 @@ function yp = rhs_sis(t, y)
     alpha = 1;
     beta = 2;
 
-    yp = beta * y * ((1-alpha)/(beta-y));
+    yp = beta * y * ((1-alpha/beta-y));
 end
