@@ -2,8 +2,9 @@
 clear; clc;
 % Initialize gamma values and blank fmax output functions for both cases.
 gamma_vals = 0:0.01:0.99;
+gamma_tilda_vals = 0:0.01:2.0;
 fmax_linear = zeros(size(gamma_vals));
-fmax_quadratic = zeros(size(gamma_vals));
+fmax_quadratic = zeros(size(gamma_tilda_vals));
 % Loop through the given gamma values.
 for i = 1:length(gamma_vals)
    gamma = gamma_vals(i);
@@ -19,20 +20,38 @@ for i = 1:length(gamma_vals)
    f_lin = 2 * abs(z_s) * zddot; % according to Equation 2.3 (olga rewrote this line)
    fmax_linear(i) = max(abs(f_lin));
   
+end
+
+for i = 1:length(gamma_tilda_vals)
+   gt = gamma_tilda_vals(i);
+    
+   [t_q, z_q, v_q] = simulate_system_quadratic(gt, [0, 30], 0, -1);
+    
+   % Find stopping index via zero-crossing of v
+   stop_idx = find(v_q(1:end-1) .* v_q(2:end) <= 0, 1) + 1;
+   if isempty(stop_idx), fmax_quadratic(i) = NaN; continue; end
+    
+   z_s_q = z_q(stop_idx);
+   zddot_q = -gt * abs(v_q(1:stop_idx)) .* v_q(1:stop_idx) - z_q(1:stop_idx);
+   f_q = 2 * abs(z_s_q) * zddot_q;
+   fmax_quadratic(i) = max(abs(f_q));
    % Simulate Quadratic (PROPRIETARY DO NOT SHARE)
-   [t_q, z_q, v_q] = simulate_system_quadratic(gamma);
-   f_q = 2 * abs(min(z_q)) * v_q;
+   [t_q, z_q, v_q] = simulate_system_quadratic(gamma_tilda_vals, tauspan, 0, -1);
+   f_q = 2 * abs(z_q) * (-gamma_tilda_vals.*abs(v_q).*v_q - z_q);
    fmax_quadratic(i) = max(abs(f_q));
 end
+
+% Find optimal gamma
+[min_fmax, index] = min(fmax_linear);
+opt_gamma = gamma_vals(index);
+
 % Define the arbitrary gamma values for analysis.
-gamma_selected = [0.1, 0.5, 0.9];
+gamma_selected = [opt_gamma, 0.5, 0.9];
 % Initialize cell arrays to store results
 t_selected = cell(1, length(gamma_selected));
 f_selected = cell(1, length(gamma_selected));
 z_selected = cell(1, length(gamma_selected));
-% Find optimal gamma
-[min_fmax, index] = min(fmax_linear);
-opt_gamma = gamma_vals(index);
+
 % Iterate through selected gamma cases
 for j = 1:length(gamma_selected)
    curr_gamma = gamma_selected(j);
