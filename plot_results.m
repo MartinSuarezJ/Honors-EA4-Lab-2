@@ -1,10 +1,10 @@
 % Plot the results
 
-function plot_results(gamma_vals, fmax_linear, fmax_quadratic, gamma_sel, t_sel, f_sel, z_sel)
+function plot_results(gamma_vals, fmax_linear, fmax_quadratic, gamma_tilda_vals, gamma_sel, t_sel, f_sel, z_sel)
     % 1. Summary Plot: Peak Force Ratio vs Gamma
     figure;
     plot(gamma_vals, fmax_linear, 'b-', 'LineWidth', 1.5); hold on;
-    plot(gamma_vals, fmax_quadratic, 'r--', 'LineWidth', 1.5);
+    plot(gamma_tilda_vals, fmax_quadratic, 'r--', 'LineWidth', 1.5);
     xlabel('\gamma'); ylabel('Peak Force Ratio f_m');
     legend('Linear', 'Quadratic');
     title('Performance Summary: Peak Force Ratio Comparison');
