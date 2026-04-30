@@ -1,7 +1,8 @@
 % Simulate the quadratic case for the ODEs
 function [t, z, v] = simulate_system_quadratic(gamma_tilda, tauspan, z0, v0)
   sys0 = [z0; v0]; % Vector of initial conditions
-  [T, SYS] = ode45(@(tau, sys) rhs_quadratic(tau, sys, gamma_tilda), tauspan, sys0);
+  opts = odeset('relTol',1e-10, 'AbsTol',1e-12);
+  [T, SYS] = ode45(@(tau, sys) rhs_quadratic(tau, sys, gamma_tilda), tauspan, sys0,opts);
   t = T;
   z = SYS(:, 1);
   v = SYS(:, 2);

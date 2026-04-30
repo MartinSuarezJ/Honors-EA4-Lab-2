@@ -4,7 +4,7 @@ function plot_results(gamma_vals, fmax_linear, fmax_quadratic, gamma_tilda_vals,
     % 1. Summary Plot: Peak Force Ratio vs Gamma
     figure;
     plot(gamma_vals, fmax_linear, 'b-', 'LineWidth', 1.5); hold on;
-    plot(gamma_tilda_vals, fmax_quadratic, 'r--', 'LineWidth', 1.5);
+    plot(gamma_tilda_vals, fmax_quadratic, 'r-', 'LineWidth', 1.5);
     xlabel('\gamma'); ylabel('Peak Force Ratio f_m');
     legend('Linear', 'Quadratic');
     title('Performance Summary: Peak Force Ratio Comparison');
@@ -16,7 +16,7 @@ function plot_results(gamma_vals, fmax_linear, fmax_quadratic, gamma_tilda_vals,
         figure;
         % Force vs Time plot
         subplot(2,1,1);
-        plot(t_sel{i}, f_sel{i}, 'k');
+        plot(t_sel{i}, f_sel{i}, 'g');
         xlabel('\tau / \tau_s'); ylabel('Force Ratio f');
         title(['Force Response for \gamma = ', num2str(gamma_sel(i))]);
         grid on;

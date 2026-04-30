@@ -1,8 +1,8 @@
 % Main driver script for the Lab
 clear; clc;
 % Initialize gamma values and blank fmax output functions for both cases.
-gamma_vals = 0:0.01:0.99;
-gamma_tilda_vals = 0:0.01:2.0;
+gamma_vals = 0:0.001:0.99;
+gamma_tilda_vals = 0:0.001:2.0;
 fmax_linear = zeros(size(gamma_vals));
 fmax_quadratic = zeros(size(gamma_tilda_vals));
 % Loop through the given gamma values.
@@ -45,7 +45,7 @@ opt_gamma = gamma_vals(index);
 f_m_linear = min_fmax;
 
 % Define the arbitrary gamma values for analysis.
-gamma_selected = [opt_gamma, 0.5, 0.9];
+gamma_selected = [opt_gamma, 0.1, 0.9];
 % Initialize cell arrays to store results
 t_selected = cell(1, length(gamma_selected));
 f_selected = cell(1, length(gamma_selected));
