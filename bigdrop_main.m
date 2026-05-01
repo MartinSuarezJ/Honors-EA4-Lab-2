@@ -39,6 +39,10 @@ for i = 1:length(gamma_tilda_vals)
    fmax_quadratic(i) = max(abs(f_q));
 end
 
+% Find optimal gamma_tilda
+[min_fmax_q, index_q] = min(fmax_quadratic);
+opt_gamma_tilda = gamma_tilda_vals(index_q);
+
 % Find optimal gamma
 [min_fmax, index] = min(fmax_linear);
 opt_gamma = gamma_vals(index);
@@ -90,7 +94,7 @@ peak_accel_1 = f_m_linear * omega_1 * v0_1;
 fprintf('Problem 1 - Minimum peak acceleration: %.3f m/s^2 (%.3f g)\n', ...
         peak_accel_1, peak_accel_1/9.81);
 
-% --- Problem 2: find minimum stopping distance, k, and c ---
+% Problem 2: find minimum stopping distance, k, and c 
 v0_2 = 40; mass_2 = 10000; a_max = 2 * 9.81;
 % From peak_accel = f_m * omega * v0 => omega = a_max / (f_m * v0)
 omega_2  = a_max / (f_m_linear * v0_2);
@@ -105,4 +109,4 @@ fprintf('Problem 2 - Spring constant k: %.1f N/m\n', k);
 fprintf('Problem 2 - Damping constant c: %.1f N*s/m\n', c);
 
 % Call plot_results with the arrays
-plot_results(gamma_vals, fmax_linear, fmax_quadratic, gamma_tilda_vals, gamma_selected, t_selected, f_selected, z_selected);
+plot_results(gamma_vals, fmax_linear, fmax_quadratic, gamma_tilda_vals, gamma_selected, t_selected, f_selected, z_selected, opt_gamma_tilda);
